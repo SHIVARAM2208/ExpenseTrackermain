@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import type { Expense } from './types';
+import type { Expense } from './types/index';
 
 // Components
 import Navbar from './components/Navbar';
