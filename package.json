@@ -1,0 +1,11 @@
+{
+  "name": "expense-tracker",
+  "private": true,
+  "workspaces": ["client", "server"],
+  "scripts": {
+    "start": "echo \"Nothing to start from root\"",
+    "client": "npm --workspace client start",
+    "server": "npm --workspace server start",
+    "build": "npm run build --workspace client"
+  }
+}
