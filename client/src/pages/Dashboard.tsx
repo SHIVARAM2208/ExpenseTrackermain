@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 // import type { Expense, ExpenseCategory } from '../utils/mockData';
-import type { Expense, ExpenseCategory } from '../types';
+import type { Expense, ExpenseCategory } from '../types/index';
 interface CategoryStats {
     category: ExpenseCategory;
     total: number;
