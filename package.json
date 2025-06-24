@@ -1,11 +1,18 @@
 {
   "name": "expense-tracker",
-  "private": true,
-  "workspaces": ["client", "server"],
   "scripts": {
-    "start": "echo \"Nothing to start from root\"",
-    "client": "npm --workspace client start",
-    "server": "npm --workspace server start",
-    "build": "npm run build --workspace client"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.x.x",
+    "react-dom": "^18.x.x",
+    "react-router-dom": "^6.x.x"
+  },
+  "devDependencies": {
+    "vite": "^5.x.x",
+    "@vitejs/plugin-react": "^4.x.x",
+    "typescript": "^5.x.x"
   }
 }
