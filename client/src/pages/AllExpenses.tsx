@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { Expense, ExpenseCategory } from '../types'; // Assuming you moved types here
+import type { Expense, ExpenseCategory } from '../types/index'; // Assuming you moved types here
 
 
 interface ExpenseFilters {
