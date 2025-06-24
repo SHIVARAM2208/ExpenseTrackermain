@@ -14,7 +14,6 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 function App() {
     const [expenses, setExpenses] = useState<Expense[]>([]);
-    const [loading, setLoading] = useState(true);
     const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
 
     useEffect(() => {
@@ -32,8 +31,6 @@ function App() {
                 setExpenses(data);
             } catch (error) {
                 console.error('Failed to fetch expenses:', error);
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -131,14 +128,16 @@ function App() {
                                 )
                             }
                         />
-                        <Route path="/add-expense" element={token ? (
-                            <AddExpense onAddExpense={addExpense} />
-                        ) : (
-                        <Navigate to="/login" />
-                    )
-                    }
-                    />
-
+                        <Route
+                            path="/add-expense"
+                            element={
+                                token ? (
+                                    <AddExpense onAddExpense={addExpense} />
+                                ) : (
+                                    <Navigate to="/login" />
+                                )
+                            }
+                        />
                         <Route
                             path="/expenses"
                             element={
@@ -155,7 +154,6 @@ function App() {
                         />
                         <Route path="/login" element={<Login onLogin={handleLogin} />} />
                         <Route path="/register" element={<Register onLogin={handleLogin} />} />
-
                     </Routes>
                 </main>
             </div>
