@@ -5,6 +5,8 @@ interface RegisterProps {
   onLogin: (token: string) => void;
 }
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Register: React.FC<RegisterProps> = ({ onLogin }) => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ username: '', email: '', password: '' });
@@ -16,7 +18,7 @@ const Register: React.FC<RegisterProps> = ({ onLogin }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/auth/signup', {
+      const res = await fetch(`${API_URL}/api/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
@@ -25,7 +27,7 @@ const Register: React.FC<RegisterProps> = ({ onLogin }) => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Signup failed');
 
-      onLogin(data.accessToken); // ✅ use the token setter
+      onLogin(data.accessToken);
       navigate('/');
     } catch (error: any) {
       alert(error.message || 'Something went wrong');
