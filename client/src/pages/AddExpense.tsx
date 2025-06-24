@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import type { Expense, ExpenseCategory } from '../types';
+import type { Expense, ExpenseCategory } from '../types/index';
 import { categoryIcons } from '../utils/categoryIcons';
 
 interface AddExpenseProps {
