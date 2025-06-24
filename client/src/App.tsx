@@ -1,5 +1,3 @@
-
-
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import type { Expense } from './types';
@@ -12,6 +10,8 @@ import AllExpenses from './pages/AllExpenses';
 import Login from './pages/login';
 import Register from './pages/Register';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function App() {
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [loading, setLoading] = useState(true);
@@ -22,7 +22,7 @@ function App() {
 
         const fetchExpenses = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/expenses', {
+                const response = await fetch(`${API_URL}/api/expenses`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -42,7 +42,7 @@ function App() {
 
     const addExpense = async (expense: Omit<Expense, 'id' | 'createdAt' | 'updatedAt'>) => {
         try {
-            const response = await fetch('http://localhost:5000/api/expenses', {
+            const response = await fetch(`${API_URL}/api/expenses`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ function App() {
 
     const updateExpense = async (id: string, updates: Partial<Expense>) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/expenses/${id}`, {
+            const response = await fetch(`${API_URL}/api/expenses/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ function App() {
 
     const deleteExpense = async (id: string) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/expenses/${id}`, {
+            const response = await fetch(`${API_URL}/api/expenses/${id}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -131,16 +131,6 @@ function App() {
                                 )
                             }
                         />
-                        {/* <Route
-                            path="/add-expense"
-                            element={
-                                token ? (
-                                    <AddExpense onAddExpense={addExpense} />
-                                ) : (
-                                    <Navigate to="/login" />
-                                )
-                            }
-                        /> */}
                         <Route path="/add-expense" element={token ? (
                             <AddExpense onAddExpense={addExpense} />
                         ) : (
