@@ -1,12 +1,11 @@
-
-
-// export default Login;
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 interface LoginProps {
   onLogin: (accessToken: string) => void;
 }
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const navigate = useNavigate();
@@ -19,22 +18,20 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
-      console.log('Login response:', data); // Debug log
-
       if (!response.ok) {
         throw new Error(data.error || 'Login failed');
       }
 
       localStorage.setItem('token', data.accessToken);
-      onLogin(data.accessToken); // 👈 Ensure this is passed correctly
-      navigate('/'); // 👈 Redirect after successful login
+      onLogin(data.accessToken);
+      navigate('/');
 
     } catch (error: any) {
       console.error('Login error:', error);
