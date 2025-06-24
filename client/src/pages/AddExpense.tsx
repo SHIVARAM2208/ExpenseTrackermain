@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -6,13 +5,7 @@ import type { Expense, ExpenseCategory } from '../types/index';
 import { categoryIcons } from '../utils/categoryIcons';
 
 interface AddExpenseProps {
-  onAddExpense: (expense: {
-    title: string;
-    amount: number;
-    category: string;
-    date: string;
-    notes?: string;
-  }) => Promise<void>;
+  onAddExpense: (expense: Omit<Expense, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
 }
 
 const categories: ExpenseCategory[] = ['Food', 'Business', 'Travel', 'Shopping', 'Health', 'Education', 'Other'];
@@ -40,7 +33,7 @@ const AddExpense: React.FC<AddExpenseProps> = ({ onAddExpense }) => {
     setIsSubmitting(true);
 
     try {
-      const expense = {
+      const expense: Omit<Expense, 'id' | 'createdAt' | 'updatedAt'> = {
         title: formData.title,
         amount: parseFloat(formData.amount),
         category: formData.category,
@@ -48,7 +41,7 @@ const AddExpense: React.FC<AddExpenseProps> = ({ onAddExpense }) => {
         notes: formData.notes || undefined
       };
 
-      await onAddExpense(expense); // ✅ Using the prop from App.tsx
+      await onAddExpense(expense);
 
       setFormData({
         title: '',
@@ -67,7 +60,9 @@ const AddExpense: React.FC<AddExpenseProps> = ({ onAddExpense }) => {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -96,19 +91,48 @@ const AddExpense: React.FC<AddExpenseProps> = ({ onAddExpense }) => {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Title */}
           <div>
-            <label htmlFor="title" className="block text-sm font-medium mb-2">Title *</label>
-            <input type="text" id="title" name="title" value={formData.title} onChange={handleInputChange} className="input-field" required />
+            <label htmlFor="title" className="block text-sm font-medium mb-2">
+              Title *
+            </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
+              className="input-field"
+              required
+            />
           </div>
 
           {/* Amount + Category */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="amount" className="block text-sm font-medium mb-2">Amount (₹) *</label>
-              <input type="number" id="amount" name="amount" value={formData.amount} onChange={handleInputChange} className="input-field" required />
+              <label htmlFor="amount" className="block text-sm font-medium mb-2">
+                Amount (₹) *
+              </label>
+              <input
+                type="number"
+                id="amount"
+                name="amount"
+                value={formData.amount}
+                onChange={handleInputChange}
+                className="input-field"
+                required
+              />
             </div>
             <div>
-              <label htmlFor="category" className="block text-sm font-medium mb-2">Category *</label>
-              <select id="category" name="category" value={formData.category} onChange={handleInputChange} className="input-field" required>
+              <label htmlFor="category" className="block text-sm font-medium mb-2">
+                Category *
+              </label>
+              <select
+                id="category"
+                name="category"
+                value={formData.category}
+                onChange={handleInputChange}
+                className="input-field"
+                required
+              >
                 {categories.map(category => (
                   <option key={category} value={category}>
                     {categoryIcons[category]} {category}
@@ -120,22 +144,53 @@ const AddExpense: React.FC<AddExpenseProps> = ({ onAddExpense }) => {
 
           {/* Date */}
           <div>
-            <label htmlFor="date" className="block text-sm font-medium mb-2">Date *</label>
-            <input type="date" id="date" name="date" value={formData.date} onChange={handleInputChange} className="input-field" required />
+            <label htmlFor="date" className="block text-sm font-medium mb-2">
+              Date *
+            </label>
+            <input
+              type="date"
+              id="date"
+              name="date"
+              value={formData.date}
+              onChange={handleInputChange}
+              className="input-field"
+              required
+            />
           </div>
 
           {/* Notes */}
           <div>
-            <label htmlFor="notes" className="block text-sm font-medium mb-2">Notes</label>
-            <textarea id="notes" name="notes" value={formData.notes} onChange={handleInputChange} className="input-field" rows={4} />
+            <label htmlFor="notes" className="block text-sm font-medium mb-2">
+              Notes
+            </label>
+            <textarea
+              id="notes"
+              name="notes"
+              value={formData.notes}
+              onChange={handleInputChange}
+              className="input-field"
+              rows={4}
+            />
           </div>
 
           {/* Submit */}
           <div className="flex gap-4 pt-4">
-            <motion.button type="submit" disabled={isSubmitting} className="btn-primary flex-1" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <motion.button
+              type="submit"
+              disabled={isSubmitting}
+              className="btn-primary flex-1"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
               {isSubmitting ? 'Adding Expense...' : '💰 Add Expense'}
             </motion.button>
-            <motion.button type="button" onClick={() => navigate('/expenses')} className="btn-outline" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <motion.button
+              type="button"
+              onClick={() => navigate('/expenses')}
+              className="btn-outline"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
               Cancel
             </motion.button>
           </div>
