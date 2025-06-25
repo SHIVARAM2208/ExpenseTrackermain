@@ -5,8 +5,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
-const expenseRoutes = require('./routes/expenseRoutes');
-const authRoutes = require('./routes/auth');
+const expenseRoutes = require('./api/expenseRoutes');
+const authRoutes = require('./api/auth');
 const { authenticate } = require('./middlewares/authMiddleware');
 
 const app = express();
